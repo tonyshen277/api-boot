@@ -1,12 +1,27 @@
-
-# ApiBoot
-[![Maven Central](https://img.shields.io/maven-central/v/org.minbox.framework/api-boot.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.minbox.framework%22%20AND%20a:%22api-boot%22) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/weibocom/motan/blob/master/LICENSE) ![](https://img.shields.io/badge/JDK-1.8+-green.svg) ![](https://img.shields.io/badge/SpringBoot-1.5+_2.0+-green.svg)
+<p align="center">
+<img src="http://image.yuqiyu.com/ApiBoot-Logo.png" height="200"/>
+</p>
+<p align="center">
+    <a href="https://search.maven.org/search?q=g:org.minbox.framework">
+        <img src="https://img.shields.io/maven-central/v/org.minbox.framework/api-boot.svg?label=Maven%20Central" alt="Maven Center">
+    </a>
+    <a href="https://github.com/weibocom/motan/blob/master/LICENSE">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-green.svg" alt="Apache License">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" alt="JDK Version">
+    </a>
+      <a href="#">
+        <img src="https://img.shields.io/badge/SpringBoot-1.5+_2.0+-green.svg" alt="SpringBoot Version">
+    </a>
+</p>
 
 `ApiBoot`是一款基于`SpringBoot1.x`、`SpringBoot2.x`的接口服务集成基础框架，内部提供了框架的封装集成，让接口开发者完成开箱即用，不再为搭建接口框架而犯愁，从而极大的提高开发效率。
 通过在我的`SpringBoot`系列教程中得到的学习者的反馈，才决定来封装一套对应我文章的基础框架，`ApiBoot`内的每一个框架的具体讲解都在文章内进行了详细说明，如果有不明白的可以通过如下途径访问我的文章：
 
-- [我的博客 - 恒宇少年De成长之路](http://blog.yuqiyu.com)
-- [我的简书](https://www.jianshu.com/u/092df3f77bca)
+- <a href="http://image.yuqiyu.com/%E6%81%92%E5%AE%87%E5%B0%91%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BA%93.jpg" target="_blank">小程序 - 恒宇少年的知识库</a>
+- <a href="http://blog.yuqiyu.com" target="_blank">我的博客 - 恒宇少年De成长之路</a>
+- <a href="https://www.jianshu.com/u/092df3f77bca" target="_blank">我的简书</a>
 
 ## 主要功能
 
@@ -17,6 +32,8 @@
 - **数据库ORM框架**：`mybatis-enhance`是一款由我开源的数据库持久化框架，基于`mybatis`进行封装编写，可以完成动态查询数据，语法与`SQL`语法几乎一致，内置常用方法提供直接调用，支持方法命名规则查询，一个接口方法就可以自动完成查询，不再编写`SQL`语句。
 - **动态数据源**：完成项目的多数据源配置、内部集成`druid`、`HikariCP`数据源实现方式，配置主从数据源、多数据库类型数据源、多种数据源实现方式集成。
 - **自动分页插件**：`mybatis-pageable`是一款由我开源的自动化分页插件，直接摆脱编写`分页代码`，仅仅需要传递的分页参数就可以自动进行查询，目前支持主流的**12**种数据库。
+- **资源业务自动分离**：`resource-load`用于业务与资源信息的分页，比如：用户头像、封面图等，只需要关心业务，让`resource-load`自动去维护资源信息。
+- **接口限流**：`rate-limiter`用于接口服务的请求流量限制，可以根据QPS配置每秒允许访问的次数。
 - **代码生成插件**：`code-builder`是一款由我开源的代码生成插件，直接摆脱实体类的生成，支持自定义`freemarker`模板来完成自定义生成类文件，比如：`Service`、`Controller`、`Mapper`等。
 - **七牛云资源处理**：集成七牛云提供的SDK来完成文件的上传、下载等方法实现，开箱即用。
 - **阿里云OSS资源处理**：集成阿里云OSS提供的SDK来完成文件的上传、下载等方法实现，开箱即用。
@@ -35,8 +52,14 @@
 - **[DataSource Switch](https://github.com/hengboy/api-boot/tree/master/api-boot-project/api-boot-plugins/api-boot-plugin-datasource-switch)**：一款多数据源自动切换框架，可配置多种数据库类型数据源集成、主从数据源配置。
 - **[Mybatis Pageable](https://github.com/hengboy/mybatis-pageable)**：`MyBatis-Pageable`是一款自动化分页的插件，基于`MyBatis`内部的插件`Interceptor`拦截器编写完成，拦截`Executor.query`的两个重载方法计算出分页的信息以及根据配置的数据库`Dialect`自动执行不同的查询语句完成总数量的统计。
 - **[Code Builder](https://github.com/hengboy/code-builder)**：`code-builder`是一款代码生成`maven mojo`插件，通过简单的配置就可以完成数据库内`Table`转换`Entity`或者其他实体类，想怎么生成完全根据你的个人业务逻辑，`code-builder`尽可能的完善的提供数据库内的一些定义的信息，让你更方便更灵活的来生成`Java`文件。
+- **[Resource Load](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-resource-load)**：通过AOP实现的资源自动加载、更新、删除、添加，内部还提供了内存、Redis缓存方式，极大的减轻数据库资源查询的压力。
+- **[Rate Limiter](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-rate-limiter)**：通过拦截器实现的服务接口流量限制，可以配置某一个接口每秒内的访问次数(QPS)，通过集成`Google`的令牌桶限流方式完成。
 
 更多组件请参考[更多集成组件](https://github.com/hengboy/api-boot/tree/master/api-boot-project/api-boot-starters)
+
+### Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/hengboy/api-boot.svg)](https://starchart.cc/hengboy/api-boot)
 
 ## 怎么使用？
 
@@ -50,7 +73,7 @@
     <dependency>
       <groupId>org.minbox.framework</groupId>
       <artifactId>api-boot-dependencies</artifactId>
-      <version>2.0.3.RELEASE</version>
+      <version>2.0.7.RELEASE</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -75,6 +98,15 @@ Demo列表：
 - [ApiBoot Alibaba SMS](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-alibaba-sms)
 - [ApiBoot Quartz](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-quartz)
 - [ApiBoot DataSource Switch](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-datasource-switch)
+- [ApiBoot Resource Load](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-resource-load)
+- [ApiBoot Message Push](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-message-push)
+- [ApiBoot RateLimiter](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-rate-limiter)
+- [ApiBoot Mybatis Enhance](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-mybatis-enhance)
+- [ApiBoot Mybatis Pageable](https://github.com/hengboy/api-boot/tree/master/api-boot-samples/api-boot-sample-mybatis-pageable)
+
+## 更新日志
+
+`ApiBoot`每一次发版都会有相应的更新日志，点击访问[更新日志wiki](<https://github.com/hengboy/api-boot/wiki/ApiBoot-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97>)
 
 ## 版本管理规范
 
@@ -97,9 +129,12 @@ Demo列表：
 
 yuqiyu999
 
-#### 钉钉群
+#### ApiBoot 开源群组
 
-![](https://github.com/hengboy/api-boot/blob/master/dingding_group.JPG)
+<p align="left">
+  <img src="http://image.yuqiyu.com/ApiBoot-qq-group-1.png" height="240">
+  <img src="http://image.yuqiyu.com/dingding_group.JPG" height="240">
+</p>
 
 ### 项目结构
 
@@ -117,6 +152,10 @@ yuqiyu999
 │   ├── api-boot-sample-http-converter
 │   ├── api-boot-sample-datasource-switch
 │   ├── api-boot-sample-security-oauth-jwt
+│   ├── api-boot-sample-resource-load
+│   ├── api-boot-sample-rate-limiter
+│   ├── api-boot-sample-mybatis-enhance
+│   ├── api-boot-sample-mybatis-pageable
 │   ├── api-boot-sample-quartz    
 │   └── api-boot-sample-swagger
 └── tools

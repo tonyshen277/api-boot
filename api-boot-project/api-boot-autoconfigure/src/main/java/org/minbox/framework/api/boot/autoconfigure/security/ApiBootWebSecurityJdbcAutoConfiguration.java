@@ -20,14 +20,22 @@ import org.minbox.framework.api.boot.plugin.security.ApiBootWebSecurityConfigura
 import org.minbox.framework.api.boot.plugin.security.delegate.ApiBootDefaultStoreDelegate;
 import org.minbox.framework.api.boot.plugin.security.delegate.ApiBootStoreDelegate;
 import org.minbox.framework.api.boot.plugin.security.userdetails.ApiBootUserDetailsService;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import javax.sql.DataSource;
 
 import static org.minbox.framework.api.boot.autoconfigure.security.ApiBootSecurityProperties.API_BOOT_SECURITY_PREFIX;
 
@@ -47,10 +55,13 @@ import static org.minbox.framework.api.boot.autoconfigure.security.ApiBootSecuri
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(ApiBootSecurityProperties.class)
 @ConditionalOnClass(ApiBootWebSecurityConfiguration.class)
+@ConditionalOnBean(DataSource.class)
 @ConditionalOnProperty(prefix = API_BOOT_SECURITY_PREFIX, name = "away", havingValue = "jdbc")
-public class ApiBootWebSecurityJdbcAutoConfiguration extends ApiBootWebSecurityAutoConfiguration{
-    public ApiBootWebSecurityJdbcAutoConfiguration(ApiBootSecurityProperties apiBootSecurityProperties) {
-        super(apiBootSecurityProperties);
+@AutoConfigureAfter(DataSourceAutoConfiguration.class)
+public class ApiBootWebSecurityJdbcAutoConfiguration extends ApiBootWebSecurityAutoConfiguration {
+
+    public ApiBootWebSecurityJdbcAutoConfiguration(ApiBootSecurityProperties apiBootSecurityProperties, ObjectProvider<AccessDeniedHandler> accessDeniedHandler, ObjectProvider<AuthenticationEntryPoint> authenticationEntryPoint) {
+        super(apiBootSecurityProperties, accessDeniedHandler.getIfAvailable(), authenticationEntryPoint.getIfAvailable());
     }
 
     @Override
@@ -66,7 +77,7 @@ public class ApiBootWebSecurityJdbcAutoConfiguration extends ApiBootWebSecurityA
      */
     @Bean
     @ConditionalOnProperty(prefix = API_BOOT_SECURITY_PREFIX, name = "enable-default-store-delegate", havingValue = "true", matchIfMissing = true)
-    public ApiBootStoreDelegate apiBootStoreDelegate() {
-        return new ApiBootDefaultStoreDelegate();
+    public ApiBootStoreDelegate apiBootStoreDelegate(DataSource dataSource) {
+        return new ApiBootDefaultStoreDelegate(dataSource);
     }
 }
